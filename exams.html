@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Options Based on Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #00d4ff, #a64dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: large;
+        }
+
+        select,
+        button {
+            background: linear-gradient(90deg, #2666df, #374fd8);
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: aliceblue;
+        }
+
+        .exam-list {
+            margin-top: 20px;
+        }
+
+        .exam-list h3 {
+            color: #007BFF;
+        }
+
+        .exam-list ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: azure;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Choose Your Stream to See Exam Options</h1>
+    <div class="container">
+        <label for="stream">Select your stream:</label>
+        <select id="stream">
+            <option style="color: black;" value="">--Select Stream--</option>
+            <option style="color: black;" value="science">Science</option>
+            <option style="color: black;" value="commerce">Commerce</option>
+            <option style="color: black;" value="humanities">Humanities</option>
+        </select>
+
+        <div class="exam-list" id="examList">
+            <!-- Exams will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const examList = document.getElementById('examList');
+        const streamSelect = document.getElementById('stream');
+
+        const exams = {
+            science: [
+                "NEET (Medical Entrance)",
+                "JEE Main (Engineering Entrance)",
+                "JEE Advanced",
+                "BITSAT",
+                "AIIMS Entrance",
+                "AFMC Entrance",
+                "State-level Engineering Exams",
+                "NDA (National Defence Academy)",
+                "KVPY (Research Fellowship)",
+                "GATE (Postgraduate Engineering)",
+                "IIT JAM (Science Masters)",
+                "CSIR NET (Research Eligibility)"
+            ],
+            commerce: [
+                "CA Foundation & Intermediate",
+                "CMA Foundation & Intermediate",
+                "CS Executive & Professional",
+                "CPT (Common Proficiency Test)",
+                "Banking Exams (IBPS, SBI PO, Clerk)",
+                "MBA Entrance (CAT, XAT, MAT, CMAT)",
+                "UPSC (Civil Services)",
+                "Insurance Exams (LIC, GIC, NICL)",
+                "Financial Analyst Courses (CFA, CFP)",
+                "Commerce Graduation (B.Com, BBA)"
+            ],
+            humanities: [
+                "UPSC Civil Services",
+                "CLAT (Law Entrance)",
+                "IPMAT (Management Aptitude)",
+                "Arts Graduation (BA in History, Political Science, etc.)",
+                "Mass Communication Entrance",
+                "Psychology Courses",
+                "Event Management Courses",
+                "Social Work (MSW)",
+                "Design & Creative Arts Exams",
+                "Public Administration Entrance"
+            ]
+        };
+
+        streamSelect.addEventListener('change', function () {
+            const stream = this.value;
+            if (!stream) {
+                examList.innerHTML = '';
+                return;
+            }
+            const examsForStream = exams[stream];
+            let html = `<h3>Exams for ${stream.charAt(0).toUpperCase() + stream.slice(1)} Stream:</h3><ul>`;
+            examsForStream.forEach(exam => {
+                html += `<li>${exam}</li>`;
+            });
+            html += `</ul>`;
+            examList.innerHTML = html;
+        });
+    </script>
+</body>
+
+</html>
