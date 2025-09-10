@@ -1,216 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Career Guidance Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1f1c2c, #928dab);
-      margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    header {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      padding: 30px 20px;
-      text-align: center;
-      border-bottom: 2px solid rgba(255,255,255,0.2);
-    }
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 0 0 10px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-      color: #fff;
-      animation: fadeIn 0.6s ease;
-    }
-    h2, h3 {
-      font-family: 'Playfair Display', serif;
-      color: #fff;
-    }
-    .question {
-      margin: 20px 0;
-      font-size: 1.2rem;
-    }
-    .strt_butt, button.option {
-      background: linear-gradient(135deg, #ffd700, #ffae00);
-      color: #222;
-      border: none;
-      padding: 14px 20px;
-      margin: 12px 0;
-      border-radius: 12px;
-      cursor: pointer;
-      display: block;
-      width: 100%;
-      text-align: center;
-      font-weight: 500;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    .strt_butt:hover, button.option:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    }
-    #result {
-      display: none;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(0,0,0,0.4);
-      margin-top: 20px;
-      color: #fdfdfd;
-      animation: fadeIn 0.6s ease;
-    }
-    .progress-bar {
-      height: 18px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
-      margin: 20px 0;
-      overflow: hidden;
-    }
-    .progress {
-      height: 100%;
-      width: 0;
-      background: linear-gradient(135deg, #ffd700, #ff8c00);
-      border-radius: 10px;
-      transition: width 0.5s ease;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Guidance</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a0b1f;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #0a0b1f;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00c6ff;
+        }
+
+        nav a {
+            margin-left: 20px;
+            font-size: 16px;
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #00c6ff;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .hero::before {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #00c6ff, transparent);
+            top: -50px;
+            left: -50px;
+        }
+
+        .hero::after {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ff00c8, transparent);
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00c6ff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #ccc;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn-container button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .quiz-btn {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: #000;
+        }
+
+        .explore-btn {
+            background: #1a1a40;
+            border: 2px solid #8a2be2;
+            color: #8a2be2;
+        }
+
+        .quiz-btn:hover {
+            opacity: 0.9;
+        }
+
+        .explore-btn:hover {
+            background: #2a2a60;
+            color: #fff;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            padding: 20px;
+            border-radius: 15px;
+            width: 180px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:nth-child(2) {
+            background: linear-gradient(135deg, #0072ff, #8a2be2);
+        }
+
+        .card:nth-child(3) {
+            background: linear-gradient(135deg, #8a2be2, #ff00c8);
+        }
+
+        .card:nth-child(4) {
+            background: linear-gradient(135deg, #ff00c8, #ff6f61);
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+        }
+
+        .features {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .features h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00c6ff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features p {
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #ccc;
+        }
+
+        .feature-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .feature-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #1a1a40;
+            color: #00c6ff;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .feature-buttons button.active,
+        .feature-buttons button:hover {
+            background: #00c6ff;
+            color: #000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #0a0b1f;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .tip-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tip-card {
+            background: #1a1a40;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            width: 250px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tip-card .icon {
+            font-size: 32px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .tip-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .tip-card p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .stream-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stream-card {
+            background: #1a1a40;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stream-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .stream-card .icon {
+            font-size: 32px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stream-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .stream-card p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .stream-card .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .stream-card .subjects span {
+            background: #2a2a60;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Career Guidance Quiz</h1>
-    <p>Discover your strengths & future opportunities</p>
-  </header>
 
-  <div class="container">
-    <div id="intro">
-      <h2>Select Your Level</h2>
-      <button class="strt_butt" onclick="startQuiz('9-10')">Class 9–10</button>
-      <button class="strt_butt" onclick="startQuiz('11-12')">Class 11–12</button>
-      <button class="strt_butt" onclick="startQuiz('ug')">Undergraduate</button>
-    </div>
+    <header>
+        <div class="logo">CareerGuide</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Tools</a>
+            <a href="#">Exams</a>
+            <a href="#">Colleges</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
 
-    <div id="quiz" style="display:none;">
-      <div class="progress-bar"><div class="progress" id="progress"></div></div>
-      <div id="questionContainer"></div>
-    </div>
+    <section class="hero">
+        <h1>Forging Strong Futures</h1>
+        <p>Discover endless possibilities after 12th grade! From competitive exams to career streams, we'll guide you
+            through every step with interactive tools, expert advice, and personalized recommendations.</p>
+        <div class="btn-container">
+            <button class="quiz-btn">Take Career Quiz</button>
+            <button class="explore-btn">Explore Exams</button>
+        </div>
+    </section>
 
-    <div id="result"></div>
-  </div>
+    <section class="stats">
+        <div class="card">
+            <h3>500+</h3>
+            <p>Career Options</p>
+        </div>
+        <div class="card">
+            <h3>50+</h3>
+            <p>Competitive Exams</p>
+        </div>
+        <div class="card">
+            <h3>1000+</h3>
+            <p>Success Stories</p>
+        </div>
+        <div class="card">
+            <h3>24/7</h3>
+            <p>Expert Support</p>
+        </div>
+    </section>
 
-  <script>
-    const questions = {
-      "9-10": [
-        { q: "Which subject excites you the most?", options: {"Physics/Chemistry": "Science", "Business Studies/Economics": "Commerce", "History/Literature": "Arts"} },
-        { q: "Do you enjoy solving numerical problems?", options: {"Yes": "Science", "Sometimes": "Commerce", "No": "Arts"} },
-        { q: "Which activities do you prefer?", options: {"Experiments": "Science", "Managing money": "Commerce", "Creative writing": "Arts"} },
-        { q: "Do you like debating and discussions?", options: {"Occasionally": "Commerce", "Yes": "Arts", "Not much": "Science"} },
-        { q: "How do you approach projects?", options: {"Analytical": "Science", "Strategic": "Commerce", "Creative": "Arts"} },
-        { q: "Which career sounds interesting?", options: {"Doctor/Engineer": "Science", "CA/Banker": "Commerce", "Journalist/Artist": "Arts"} },
-        { q: "Do you like reading about inventions?", options: {"Yes": "Science", "Sometimes": "Commerce", "No": "Arts"} },
-        { q: "What type of movies inspire you?", options: {"Science Fiction": "Science", "Business/Finance": "Commerce", "Historical/Drama": "Arts"} },
-        { q: "How do you spend your free time?", options: {"Puzzles/Experiments": "Science", "Stock market news": "Commerce", "Drawing/Writing": "Arts"} },
-        { q: "Do you enjoy statistics and charts?", options: {"A lot": "Commerce", "Sometimes": "Science", "Not really": "Arts"} },
-        { q: "Which skill best defines you?", options: {"Logical": "Science", "Practical": "Commerce", "Creative": "Arts"} },
-        { q: "Which exam would you enjoy preparing for?", options: {"JEE/NEET": "Science", "CA/CS": "Commerce", "Humanities entrance": "Arts"} }
-      ],
-      "11-12": [
-        { q: "Which subjects do you perform best in?", options: {"Math/Physics": "Engineering", "Biology/Chemistry": "Medicine", "Business/Economics": "Business", "Arts/Design": "Design", "History/Sociology": "Social"} },
-        { q: "Do you enjoy working with technology?", options: {"Yes": "Engineering", "A little": "Business", "No": "Social"} },
-        { q: "Do you see yourself helping patients?", options: {"Yes": "Medicine", "Not sure": "Social", "No": "Engineering"} },
-        { q: "Would you like to run your own company?", options: {"Yes": "Business", "Maybe": "Design", "No": "Medicine"} },
-        { q: "Do you like artistic work?", options: {"Yes": "Design", "Somewhat": "Social", "No": "Engineering"} },
-        { q: "Which type of internships excite you?", options: {"Lab Research": "Medicine", "Startup": "Business", "NGO": "Social", "Tech firm": "Engineering"} },
-        { q: "Do you enjoy leadership roles?", options: {"Yes": "Business", "Sometimes": "Engineering", "No": "Design"} },
-        { q: "Which exams do you plan for?", options: {"JEE": "Engineering", "NEET": "Medicine", "CAT": "Business", "Design entrance": "Design", "UPSC": "Social"} },
-        { q: "What motivates you most?", options: {"Innovation": "Engineering", "Helping People": "Medicine", "Wealth": "Business", "Expression": "Design", "Society": "Social"} },
-        { q: "Which career sounds ideal?", options: {"Engineer": "Engineering", "Doctor": "Medicine", "Entrepreneur": "Business", "Designer": "Design", "Civil Servant": "Social"} }
-      ],
-      "ug": [
-        { q: "Do you plan to pursue higher studies?", options: {"Yes, Research": "Research", "Yes, MBA/PGDM": "Management", "No, Job": "Job", "Startup": "Entrepreneurship"} },
-        { q: "What do you enjoy most?", options: {"Innovation": "Research", "Leadership": "Management", "Stability": "Job", "Risk-taking": "Entrepreneurship"} },
-        { q: "Do you like solving real-world problems?", options: {"Yes, Deeply": "Research", "Yes, Practical": "Job", "By leading teams": "Management", "Through business": "Entrepreneurship"} },
-        { q: "Which environment do you prefer?", options: {"Labs": "Research", "Corporate": "Management", "Office": "Job", "Startup": "Entrepreneurship"} },
-        { q: "What motivates you most?", options: {"Knowledge": "Research", "Growth": "Management", "Security": "Job", "Freedom": "Entrepreneurship"} },
-        { q: "How do you approach risk?", options: {"Avoid": "Job", "Calculated": "Management", "Accept": "Entrepreneurship", "Neutral": "Research"} },
-        { q: "Which skill defines you?", options: {"Analytical": "Research", "Leadership": "Management", "Reliable": "Job", "Creative": "Entrepreneurship"} },
-        { q: "Which career sounds best?", options: {"Professor": "Research", "Manager": "Management", "Engineer/Analyst": "Job", "Founder": "Entrepreneurship"} },
-        { q: "Do you want global exposure?", options: {"Yes, Academia": "Research", "Yes, Corporate": "Management", "Not necessary": "Job", "Yes, Startup": "Entrepreneurship"} },
-        { q: "Where do you see yourself in 10 years?", options: {"Scientist": "Research", "CEO": "Management", "Stable Job": "Job", "Running a Company": "Entrepreneurship"} }
-      ]
-    };
+    <section class="features">
+        <h2>Discover Your Path</h2>
+        <p>Use our cutting-edge tools to discover your ideal career path through personalized assessments, comparisons,
+            and expert guidance.</p>
+        <div class="feature-buttons">
+            <button class="active">Quiz</button>
+            <button>Skills</button>
+            <button>Compare</button>
+            <button>Colleges</button>
+            <button>Exams</button>
+            <button>Roadmap</button>
+        </div>
+    </section>
+    <section class="streams">
+        <div style="text-align: center; padding: 40px 20px;">
+            <button
+                style="background: none; border: 2px solid #8a2be2; color: #8a2be2; border-radius: 25px; padding: 8px 20px; font-size: 14px; cursor: pointer;">
+                📚 Academic Streams
+            </button>
+            <h2 style="color: #e056fd; font-size: 32px; margin: 20px 0;">Choose Your Stream</h2>
+            <p style="color: #ccc; max-width: 600px; margin: 0 auto;">
+                Each stream opens doors to unique opportunities. Explore detailed career paths, entrance exams, and
+                success roadmaps.
+            </p>
+        </div>
 
-    let currentLevel = "";
-    let currentQuestionIndex = 0;
-    let scores = {};
+        <div class="stream-cards">
+            <div class="stream-card" style="border-image: linear-gradient(135deg, #00c6ff, #0072ff) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">
+                    📘
+                </div>
+                <h3>Science Stream</h3>
+                <p>Explore the world of research, technology, and innovation</p>
+                <p><strong>Core Subjects:</strong></p>
+                <div class="subjects">
+                    <span>Physics</span>
+                    <span>Chemistry</span>
+                    <span>Biology</span>
+                    <span>Mathematics</span>
+                </div>
+                <button
+                    style="background: linear-gradient(90deg, #00c6ff, #0072ff); border: none; padding: 10px 20px; border-radius: 25px; color: #000; cursor: pointer;">
+                    📘 Explore Careers
+                </button>
+            </div>
 
-    function startQuiz(level) {
-      currentLevel = level;
-      currentQuestionIndex = 0;
-      scores = {};
-      document.getElementById('intro').style.display = 'none';
-      document.getElementById('quiz').style.display = 'block';
-      loadQuestion();
-    }
+            <div class="stream-card" style="border-image: linear-gradient(135deg, #0072ff, #8a2be2) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #0072ff, #8a2be2);">
+                    📈
+                </div>
+                <h3>Commerce Stream</h3>
+                <p>Master the art of business, finance, and economics</p>
+                <p><strong>Core Subjects:</strong></p>
+                <div class="subjects">
+                    <span>Accountancy</span>
+                    <span>Business Studies</span>
+                    <span>Economics</span>
+                    <span>Mathematics</span>
+                </div>
+                <button
+                    style="background: linear-gradient(90deg, #0072ff, #8a2be2); border: none; padding: 10px 20px; border-radius: 25px; color: #fff; cursor: pointer;">
+                    📘 Explore Careers
+                </button>
+            </div>
 
-    function loadQuestion() {
-      const questionData = questions[currentLevel][currentQuestionIndex];
-      let container = document.getElementById('questionContainer');
-      container.innerHTML = `<div class='question'><h3>${questionData.q}</h3></div>`;
-      for (let [text, category] of Object.entries(questionData.options)) {
-        container.innerHTML += `<button class='option' onclick=selectAnswer('${category}')>${text}</button>`;
-      }
-      updateProgress();
-    }
+            <div class="stream-card" style="border-image: linear-gradient(135deg, #8a2be2, #ff00c8) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #8a2be2, #ff00c8);">
+                    🎨
+                </div>
+                <h3>Arts/Humanities Stream</h3>
+                <p>Explore human culture, creativity, and social sciences</p>
+                <p><strong>Core Subjects:</strong></p>
+                <div class="subjects">
+                    <span>History</span>
+                    <span>Political Science</span>
+                    <span>Psychology</span>
+                    <span>Literature</span>
+                </div>
+                <button
+                    style="background: linear-gradient(90deg, #8a2be2, #ff00c8); border: none; padding: 10px 20px; border-radius: 25px; color: #fff; cursor: pointer;">
+                    📘 Explore Careers
+                </button>
+            </div>
+        </div>
+    </section>
 
-    function selectAnswer(category) {
-      scores[category] = (scores[category] || 0) + 1;
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questions[currentLevel].length) {
-        loadQuestion();
-      } else {
-        showResult();
-      }
-    }
+    <section class="tips">
+        <div style="text-align: center; padding: 40px 20px;">
+            <button
+                style="background: none; border: 2px solid #ff7e5f; color: #ff7e5f; border-radius: 25px; padding: 8px 20px; font-size: 14px; cursor: pointer;">
+                🏆 Expert Guidance
+            </button>
+            <h2 style="color: #ff6a61; font-size: 32px; margin: 20px 0;">Smart Tips for Success</h2>
+            <p style="color: #ccc; max-width: 600px; margin: 0 auto;">
+                Make informed decisions with these essential tips for selecting your stream and planning your career
+                after 12th grade.
+            </p>
+        </div>
 
-    function updateProgress() {
-      const total = questions[currentLevel].length;
-      const progress = ((currentQuestionIndex + 1) / total) * 100;
-      document.getElementById('progress').style.width = progress + '%';
-    }
+        <div class="tip-cards">
+            <div class="tip-card" style="border-image: linear-gradient(135deg, #00c6ff, #0072ff) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #00c6ff, #0072ff);">⭐</div>
+                <h3>Follow Your Passion</h3>
+                <p>Choose a stream that aligns with your interests and natural abilities.</p>
+            </div>
 
-    function showResult() {
-      document.getElementById('quiz').style.display = 'none';
-      let resultDiv = document.getElementById('result');
-      resultDiv.style.display = 'block';
-      let total = Object.values(scores).reduce((a, b) => a + b, 0);
-      let sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
-      let html = '<h2>Your Results</h2>';
-      sorted.forEach(([area, score]) => {
-        let percent = ((score/total)*100).toFixed(1);
-        html += `<p><b>${area}:</b> ${percent}%</p>`;
-      });
-      html += `<h3>Top Recommendation: ${sorted[0][0]}</h3>`;
-      html += `<button class="strt_butt" onclick="location.reload()">Retake Quiz</button>`;
-      resultDiv.innerHTML = html;
-    }
-  </script>
+            <div class="tip-card" style="border-image: linear-gradient(135deg, #0072ff, #8a2be2) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #0072ff, #8a2be2);">🎯</div>
+                <h3>Research Career Prospects</h3>
+                <p>Look into job opportunities, salary ranges, and growth potential.</p>
+            </div>
+
+            <div class="tip-card" style="border-image: linear-gradient(135deg, #8a2be2, #ff00c8) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #8a2be2, #ff00c8);">📈</div>
+                <h3>Consider Your Strengths</h3>
+                <p>Evaluate your academic performance and skill set in different subjects.</p>
+            </div>
+
+            <div class="tip-card" style="border-image: linear-gradient(135deg, #ff7e5f, #feb47b) 1;">
+                <div class="icon" style="background: linear-gradient(135deg, #ff7e5f, #feb47b);">👥</div>
+                <h3>Seek Guidance</h3>
+                <p>Talk to teachers, counselors, and professionals in your field of interest.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 CareerGuide. All rights reserved.
+    </footer>
+
+    <script>
+        const buttons = document.querySelectorAll('.feature-buttons button');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+
 </body>
+
 </html>
