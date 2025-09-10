@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For class 10</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  #quiz-container {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    max-width: 700px;
+    width: 95%;
+    margin: 20px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    color: #ddd;
+  }
+  h1 {
+    text-align: center;
+    color: #ff6a61;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  .question {
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
+  }
+  .options {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 30px;
+  }
+  .options li {
+    margin-bottom: 15px;
+  }
+  button.option-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #00d4ff, #a64dff);
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  button.option-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  #result {
+    font-size: 1.1rem;
+    padding: 20px;
+    border: 2px solid #ff6a61;
+    border-radius: 10px;
+    background: #1f1f3a;
+    color: #ffffff;
+  }
+  #result h2 {
+    color: #ff6a61;
+  }
+  #result ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  #restart-btn {
+    margin-top: 25px;
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #restart-btn:hover {
+    background: linear-gradient(135deg, #ff6a3f, #fd9f4a);
+  }
+</style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>Career Interest & Stream Selection Quiz</h1>
+  <div id="quiz-content">
+    <!-- Quiz questions appear here -->
+  </div>
+</div>
+
+<script>
+  // Entire JavaScript logic remains unchanged
+  const streams = {
+    a: "Science (Mathematics & Technology)",
+    b: "Science (Biology & Life Sciences)",
+    c: "Commerce",
+    d: "Arts & Humanities",
+    e: "Vocational & Creative"
+  };
+
+  const careers = {
+    a: ["Engineer", "Software Developer", "Architect", "Data Scientist", "Robotics Engineer"],
+    b: ["Doctor", "Biotechnologist", "Pharmacist", "Environmental Scientist", "Research Scientist"],
+    c: ["Chartered Accountant", "Business Analyst", "Financial Planner", "Entrepreneur", "Marketing Manager"],
+    d: ["Teacher", "Lawyer", "Journalist", "Psychologist", "Historian"],
+    e: ["Designer", "Animator", "Athlete", "Event Manager", "Fashion Designer"]
+  };
+
+  const questions = {
+    q1: {
+      text: "Which subjects do you find most interesting and engaging?",
+      options: [
+        { text: "Mathematics, Physics, Chemistry", category: "a", points: 2, next: "q2a" },
+        { text: "Biology, Chemistry, Environmental Science", category: "b", points: 2, next: "q2b" },
+        { text: "Accountancy, Economics, Business Studies", category: "c", points: 2, next: "q2c" },
+        { text: "History, Political Science, Geography", category: "d", points: 2, next: "q2d" },
+        { text: "Art, Music, Physical Education, Design", category: "e", points: 2, next: "q2e" }
+      ]
+    },
+    // The rest of the questions remain exactly as you provided
+    q2a: { text: "What type of problems do you enjoy solving most?", options: [ { text: "Logical problems", category: "a", points: 3, next: "q3a" }, { text: "Experiments", category: "a", points: 2, next: "q3a" }, { text: "Designing software", category: "a", points: 3, next: "q3a" }, { text: "Building machines", category: "a", points: 2, next: "q3a" }, { text: "Researching tech", category: "a", points: 3, next: "q3a" }] },
+    q3a: { text: "Which activity appeals most to you?", options: [ { text: "Programming", category: "a", points: 2, next: "common4" }, { text: "Competitions", category: "a", points: 2, next: "common4" }, { text: "Working with robotics", category: "a", points: 2, next: "common4" }, { text: "Designing apps", category: "a", points: 2, next: "common4" }, { text: "Experimenting", category: "a", points: 2, next: "common4" }] },
+    q2b: { text: "What kind of scientific work excites you the most?", options: [ { text: "Studying ecosystems", category: "b", points: 3, next: "q3b" }, { text: "Human body", category: "b", points: 3, next: "q3b" }, { text: "Genetic research", category: "b", points: 3, next: "q3b" }, { text: "Environmental conservation", category: "b", points: 3, next: "q3b" }, { text: "Pharmaceuticals", category: "b", points: 3, next: "q3b" }] },
+    q3b: { text: "Which of these appeals the most?", options: [ { text: "Volunteering", category: "b", points: 2, next: "common4" }, { text: "Lab work", category: "b", points: 2, next: "common4" }, { text: "Fieldwork", category: "b", points: 2, next: "common4" }, { text: "Studying diseases", category: "b", points: 2, next: "common4" }, { text: "Researching", category: "b", points: 2, next: "common4" }] },
+    q2c: { text: "Which of these business activities interests you most?", options: [ { text: "Accounts", category: "c", points: 3, next: "q3c" }, { text: "Marketing", category: "c", points: 3, next: "q3c" }, { text: "Running business", category: "c", points: 3, next: "q3c" }, { text: "Economics", category: "c", points: 3, next: "q3c" }, { text: "HR", category: "c", points: 3, next: "q3c" }] },
+    q3c: { text: "How do you feel about working with numbers?", options: [ { text: "Love data", category: "c", points: 2, next: "common4" }, { text: "Like analyzing", category: "c", points: 2, next: "common4" }, { text: "Prefer marketing", category: "c", points: 2, next: "common4" }, { text: "Negotiating", category: "c", points: 2, next: "common4" }, { text: "Economic policies", category: "c", points: 2, next: "common4" }] },
+    q2d: { text: "What type of subjects do you enjoy the most?", options: [ { text: "History", category: "d", points: 3, next: "q3d" }, { text: "Languages", category: "d", points: 3, next: "q3d" }, { text: "Psychology", category: "d", points: 3, next: "q3d" }, { text: "Law", category: "d", points: 3, next: "q3d" }, { text: "Philosophy", category: "d", points: 3, next: "q3d" }] },
+    q3d: { text: "What kind of activities appeal to you?", options: [ { text: "Writing", category: "d", points: 2, next: "common4" }, { text: "Debating", category: "d", points: 2, next: "common4" }, { text: "Activism", category: "d", points: 2, next: "common4" }, { text: "Research", category: "d", points: 2, next: "common4" }, { text: "Teaching", category: "d", points: 2, next: "common4" }] },
+    q2e: { text: "Which of these creative activities do you enjoy most?", options: [ { text: "Painting", category: "e", points: 3, next: "q3e" }, { text: "Music", category: "e", points: 3, next: "q3e" }, { text: "Sports", category: "e", points: 3, next: "q3e" }, { text: "Design", category: "e", points: 3, next: "q3e" }, { text: "Event planning", category: "e", points: 3, next: "q3e" }] },
+    q3e: { text: "Which role fits you best in a team?", options: [ { text: "Creator", category: "e", points: 2, next: "common4" }, { text: "Performer", category: "e", points: 2, next: "common4" }, { text: "Coach", category: "e", points: 2, next: "common4" }, { text: "Organizer", category: "e", points: 2, next: "common4" }, { text: "Supporter", category: "e", points: 2, next: "common4" }] },
+    common4: {
+      text: "How do you prefer to learn or work?",
+      options: [
+        { text: "Hands-on", category: "a", points: 2, next: "common5" },
+        { text: "Observing", category: "b", points: 2, next: "common5" },
+        { text: "Planning", category: "c", points: 2, next: "common5" },
+        { text: "Discussing", category: "d", points: 2, next: "common5" },
+        { text: "Creating", category: "e", points: 2, next: "common5" }
+      ]
+    },
+    common5: {
+      text: "What motivates you the most?",
+      options: [
+        { text: "Innovation", category: "a", points: 2, next: "common6" },
+        { text: "Helping others", category: "b", points: 2, next: "common6" },
+        { text: "Financial success", category: "c", points: 2, next: "common6" },
+        { text: "Influencing others", category: "d", points: 2, next: "common6" },
+        { text: "Creativity", category: "e", points: 2, next: "common6" }
+      ]
+    },
+    common6: {
+      text: "Where do you see yourself working?",
+      options: [
+        { text: "Tech firms", category: "a", points: 2, next: "common7" },
+        { text: "Hospitals", category: "b", points: 2, next: "common7" },
+        { text: "Offices", category: "c", points: 2, next: "common7" },
+        { text: "NGOs", category: "d", points: 2, next: "common7" },
+        { text: "Studios", category: "e", points: 2, next: "common7" }
+      ]
+    },
+    common7: {
+      text: "How do you solve problems?",
+      options: [
+        { text: "Logic", category: "a", points: 2, next: "common8" },
+        { text: "Human impact", category: "b", points: 2, next: "common8" },
+        { text: "Practical solutions", category: "c", points: 2, next: "common8" },
+        { text: "Social context", category: "d", points: 2, next: "common8" },
+        { text: "Creative methods", category: "e", points: 2, next: "common8" }
+      ]
+    },
+    common8: {
+      text: "What matters most to you in a career?",
+      options: [
+        { text: "Innovation", category: "a", points: 2, next: "end" },
+        { text: "Service", category: "b", points: 2, next: "end" },
+        { text: "Wealth", category: "c", points: 2, next: "end" },
+        { text: "Expression", category: "d", points: 2, next: "end" },
+        { text: "Passion", category: "e", points: 2, next: "end" }
+      ]
+    }
+  };
+
+  let scores = { a: 0, b: 0, c: 0, d: 0, e: 0 };
+  let currentQuestionId = "q1";
+  const quizContent = document.getElementById("quiz-content");
+
+  function showQuestion(qId) {
+    const question = questions[qId];
+    quizContent.innerHTML = "";
+
+    const qText = document.createElement("div");
+    qText.className = "question";
+    qText.textContent = question.text;
+    quizContent.appendChild(qText);
+
+    const ul = document.createElement("ul");
+    ul.className = "options";
+
+    question.options.forEach(option => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option-btn";
+      btn.textContent = option.text;
+      btn.addEventListener("click", () => {
+        scores[option.category] += option.points;
+        if (option.next === "end") {
+          showResult();
+        } else {
+          currentQuestionId = option.next;
+          showQuestion(currentQuestionId);
+        }
+      });
+      li.appendChild(btn);
+      ul.appendChild(li);
+    });
+
+    quizContent.appendChild(ul);
+  }
+
+  function showResult() {
+    quizContent.innerHTML = "";
+    const maxScore = Math.max(...Object.values(scores));
+    const topCategories = Object.entries(scores).filter(([cat, score]) => score === maxScore).map(([cat]) => cat);
+
+    const resultDiv = document.createElement("div");
+    resultDiv.id = "result";
+    let message = `<h2>Your best suited stream(s):</h2><ul>`;
+    topCategories.forEach(cat => {
+      message += `<li><strong>${streams[cat]}</strong><br/>Possible Careers:<ul>`;
+      careers[cat].forEach(career => {
+        message += `<li>${career}</li>`;
+      });
+      message += `</ul></li>`;
+    });
+    message += `</ul>`;
+    resultDiv.innerHTML = message;
+    quizContent.appendChild(resultDiv);
+
+    const restartBtn = document.createElement("button");
+    restartBtn.id = "restart-btn";
+    restartBtn.textContent = "Restart Quiz";
+    restartBtn.addEventListener("click", () => {
+      scores = { a: 0, b: 0, c: 0, d: 0, e: 0 };
+      currentQuestionId = "q1";
+      showQuestion(currentQuestionId);
+    });
+    quizContent.appendChild(restartBtn);
+  }
+
+  showQuestion(currentQuestionId);
+</script>
+
+</body>
+</html>

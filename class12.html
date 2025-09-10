@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graduation Course Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ddd;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      padding: 30px 40px;
+      border-radius: 15px;
+      width: 700px;
+      max-width: 95%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    h2 {
+      color: #ff6a61;
+      margin-bottom: 20px;
+    }
+    #question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .option {
+      display: block;
+      margin: 12px 0;
+      padding: 14px 20px;
+      width: 100%;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00d4ff, #a64dff);
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .option:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .result {
+      font-size: 1.1rem;
+      margin-top: 20px;
+      text-align: left;
+      background: #1f1f3a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ff6a61;
+      display: none; /* Initially hidden */
+    }
+    .result h3 {
+      color: #ff6a61;
+      margin-bottom: 10px;
+    }
+    .result ul {
+      margin-left: 20px;
+    }
+    .find-colleges {
+      margin-top: 20px;
+      padding: 14px 20px;
+      width: 100%;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .find-colleges:hover {
+      background: linear-gradient(135deg, #ff6a3f, #fd9f4a);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Graduation Course Interest Quiz</h2>
+    <p id="question">Loading...</p>
+    <div id="options"></div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const quiz = {
+      q1: {
+        text: "What was your stream in Class 11th & 12th?",
+        options: [
+          { text: "Science (PCM)", next: "q2_pcm" },
+          { text: "Science (PCB)", next: "q2_pcb" },
+          { text: "Commerce", next: "q2_commerce" },
+          { text: "Arts/Humanities", next: "q2_arts" }
+        ]
+      },
+      q2_pcm: {
+        text: "Which subject excites you the most?",
+        options: [
+          { text: "Mathematics", next: "rec_math" },
+          { text: "Physics", next: "rec_phys" },
+          { text: "Chemistry", next: "rec_chem" },
+          { text: "Computer Science", next: "rec_cs" }
+        ]
+      },
+      q2_pcb: {
+        text: "Which part of Biology interests you most?",
+        options: [
+          { text: "Medicine & Healthcare", next: "rec_medicine" },
+          { text: "Biotechnology", next: "rec_biotech" },
+          { text: "Environmental Science", next: "rec_env" },
+          { text: "Psychology/Neuroscience", next: "rec_psych" }
+        ]
+      },
+      q2_commerce: {
+        text: "Which area attracts you most in Commerce?",
+        options: [
+          { text: "Finance & Accounting", next: "rec_finance" },
+          { text: "Business & Management", next: "rec_manage" },
+          { text: "Entrepreneurship", next: "rec_entre" },
+          { text: "Law & Corporate Studies", next: "rec_law" }
+        ]
+      },
+      q2_arts: {
+        text: "Which area of Arts interests you more?",
+        options: [
+          { text: "History & Political Science", next: "rec_history" },
+          { text: "Psychology & Sociology", next: "rec_psycho" },
+          { text: "Media, Literature & Languages", next: "rec_media" },
+          { text: "Fine Arts, Design & Performing Arts", next: "rec_fine" }
+        ]
+      },
+      rec_math: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Sc. Mathematics", "B.Tech in Data Science/AI", "Integrated M.Sc. Math"],
+          careers: ["Data Scientist", "Statistician", "Actuary", "Quant Analyst"]
+        }
+      },
+      rec_phys: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Sc. Physics", "B.Tech Engineering", "Astrophysics"],
+          careers: ["Research Scientist", "Engineer", "Astronomer"]
+        }
+      },
+      rec_chem: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Sc. Chemistry", "B.Pharm", "Chemical Engineering"],
+          careers: ["Pharmacist", "Chemist", "Forensic Analyst"]
+        }
+      },
+      rec_cs: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Tech CSE", "BCA", "B.Sc. IT"],
+          careers: ["Software Engineer", "AI/ML Engineer", "Cybersecurity Expert"]
+        }
+      },
+      rec_medicine: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MBBS", "BDS", "B.Sc. Nursing"],
+          careers: ["Doctor", "Dentist", "Healthcare Specialist"]
+        }
+      },
+      rec_biotech: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Sc. Biotechnology", "B.Tech Biotechnology"],
+          careers: ["Biotech Researcher", "Genetic Engineer"]
+        }
+      },
+      rec_env: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Sc. Environmental Science", "B.Sc. Forestry"],
+          careers: ["Ecologist", "Wildlife Biologist"]
+        }
+      },
+      rec_psych: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.A./B.Sc. Psychology", "B.Sc. Neuroscience"],
+          careers: ["Psychologist", "Therapist"]
+        }
+      },
+      rec_finance: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Com (Hons)", "CA", "BBA Finance"],
+          careers: ["CA", "Auditor", "Investment Banker"]
+        }
+      },
+      rec_manage: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["BBA", "BMS", "Hotel Management"],
+          careers: ["Manager", "HR Specialist", "Business Analyst"]
+        }
+      },
+      rec_entre: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["BBA Entrepreneurship", "Start-up Programs"],
+          careers: ["Entrepreneur", "Business Owner"]
+        }
+      },
+      rec_law: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.Com + LLB", "BA LLB"],
+          careers: ["Corporate Lawyer", "Legal Consultant"]
+        }
+      },
+      rec_history: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.A. History", "B.A. Political Science"],
+          careers: ["Historian", "Civil Services", "Political Analyst"]
+        }
+      },
+      rec_media: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["B.A. English", "Mass Communication", "Journalism"],
+          careers: ["Journalist", "Writer", "Editor"]
+        }
+      },
+      rec_fine: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["BFA", "B.Des", "Performing Arts"],
+          careers: ["Designer", "Artist", "Musician"]
+        }
+      }
+    };
+
+    let current = "q1";
+
+    function loadQuestion() {
+      const q = quiz[current];
+      const questionEl = document.getElementById("question");
+      const optionsEl = document.getElementById("options");
+      const resultEl = document.getElementById("result");
+
+      if (q.result) {
+        // Show result
+        questionEl.textContent = q.text;
+        optionsEl.innerHTML = "";
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `
+          <h3>Best Graduation Options for You:</h3>
+          <ul>${q.result.courses.map(c => `<li>${c}</li>`).join("")}</ul>
+          <h3>Possible Careers:</h3>
+          <ul>${q.result.careers.map(c => `<li>${c}</li>`).join("")}</ul>
+          <button class="find-colleges" onclick="findColleges()">🔎 Find Colleges Near Me</button>
+        `;
+      } else {
+        // Show question
+        questionEl.textContent = q.text;
+        optionsEl.innerHTML = "";
+        resultEl.style.display = "none"; // Hide result section
+        q.options.forEach(opt => {
+          const btn = document.createElement("button");
+          btn.textContent = opt.text;
+          btn.className = "option";
+          btn.onclick = () => {
+            current = opt.next;
+            loadQuestion();
+          };
+          optionsEl.appendChild(btn);
+        });
+      }
+    }
+
+    function findColleges() {
+      alert("This would integrate with Google Maps or a college database.");
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>

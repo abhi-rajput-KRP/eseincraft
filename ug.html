@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Gaduates</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ddd;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      padding: 30px 40px;
+      border-radius: 15px;
+      width: 700px;
+      max-width: 95%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    h2 {
+      color: #ff6a61;
+      margin-bottom: 20px;
+    }
+    #question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .option {
+      display: block;
+      margin: 12px 0;
+      padding: 14px 20px;
+      width: 100%;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00d4ff, #a64dff);
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .option:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .result {
+      font-size: 1.1rem;
+      margin-top: 20px;
+      text-align: left;
+      background: #1f1f3a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ff6a61;
+      display: none; /*Initially hidden*/
+    }
+    .result h3 {
+      color: #ff6a61;
+      margin-bottom: 10px;
+    }
+    .result ul {
+      margin-left: 20px;
+    }
+    button.find-colleges {
+      margin-top: 20px;
+      padding: 14px 20px;
+      width: 100%;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .find-colleges:hover {
+      background: linear-gradient(135deg, #ff6a3f, #fd9f4a);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Career Guidance Quiz (For Graduates)</h2>
+    <p id="question">Loading...</p>
+    <div id="options"></div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const quiz = {
+      q1: {
+        text: "What was your graduation stream?",
+        options: [
+          { text: "Engineering/Technology", next: "q2_eng" },
+          { text: "Medical/Life Sciences", next: "q2_med" },
+          { text: "Commerce/Management", next: "q2_com" },
+          { text: "Arts/Humanities", next: "q2_arts" },
+          { text: "Other/General", next: "q2_general" }
+        ]
+      },
+
+      // Engineering Path
+      q2_eng: {
+        text: "What area excites you most?",
+        options: [
+          { text: "Software & IT", next: "q3_eng_software" },
+          { text: "Core Engineering (Mechanical, Civil, Electrical)", next: "q3_eng_core" },
+          { text: "Research & Higher Studies", next: "q3_eng_research" },
+          { text: "Management/Entrepreneurship", next: "q3_eng_manage" }
+        ]
+      },
+      q3_eng_software: {
+        text: "Do you enjoy coding and building digital products?",
+        options: [
+          { text: "Yes", next: "rec_software" },
+          { text: "Not really", next: "rec_it_consulting" }
+        ]
+      },
+      q3_eng_core: {
+        text: "Would you like to prepare for competitive exams (GATE/IES)?",
+        options: [
+          { text: "Yes", next: "rec_core_research" },
+          { text: "No", next: "rec_core_jobs" }
+        ]
+      },
+      q3_eng_research: {
+        text: "Are you interested in going abroad for higher studies?",
+        options: [
+          { text: "Yes", next: "rec_masters_abroad" },
+          { text: "No", next: "rec_mtech_india" }
+        ]
+      },
+      q3_eng_manage: {
+        text: "Would you consider MBA or Startup?",
+        options: [
+          { text: "MBA", next: "rec_mba" },
+          { text: "Startup", next: "rec_startup" }
+        ]
+      },
+
+      // Medical Path
+      q2_med: {
+        text: "Which field excites you more?",
+        options: [
+          { text: "Clinical Practice (Doctor, Dentist, etc.)", next: "rec_clinical" },
+          { text: "Research & Biotechnology", next: "rec_med_research" },
+          { text: "Healthcare Management", next: "rec_health_manage" }
+        ]
+      },
+
+      // Commerce Path
+      q2_com: {
+        text: "Which area attracts you the most?",
+        options: [
+          { text: "Finance & Accounting", next: "rec_finance" },
+          { text: "Business & Management", next: "rec_manage" },
+          { text: "Entrepreneurship", next: "rec_startup" },
+          { text: "Law & Corporate Studies", next: "rec_law" }
+        ]
+      },
+
+      // Arts Path
+      q2_arts: {
+        text: "Which area of Arts interests you more?",
+        options: [
+          { text: "History, Political Science, Civil Services", next: "rec_civil" },
+          { text: "Psychology & Counseling", next: "rec_psychology" },
+          { text: "Media, Literature & Journalism", next: "rec_media" },
+          { text: "Fine Arts, Design & Creative Fields", next: "rec_fine" }
+        ]
+      },
+
+      // General
+      q2_general: {
+        text: "Do you want to pursue skill-based professional courses?",
+        options: [
+          { text: "Yes", next: "rec_skills" },
+          { text: "No", next: "rec_generic" }
+        ]
+      },
+
+      // Recommendations
+      rec_software: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["M.Tech CSE", "Certifications (Cloud, AI, Cybersecurity)", "MS Abroad"],
+          careers: ["Software Engineer", "AI/ML Engineer", "Cybersecurity Expert", "Product Developer"]
+        }
+      },
+      rec_it_consulting: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MBA IT", "Project Management Certifications"],
+          careers: ["IT Consultant", "Business Analyst", "Tech Manager"]
+        }
+      },
+      rec_core_research: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["M.Tech via GATE", "PhD Research"],
+          careers: ["Research Scientist", "Professor", "Engineer in PSUs"]
+        }
+      },
+      rec_core_jobs: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["Skill Certification", "Short-term Diplomas"],
+          careers: ["Site Engineer", "Manufacturing Engineer", "Operations Specialist"]
+        }
+      },
+      rec_masters_abroad: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MS in Engineering (USA, Germany, Canada)", "Research Fellowships"],
+          careers: ["R&D Engineer", "Scientist", "Tech Consultant"]
+        }
+      },
+      rec_mtech_india: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["M.Tech India", "Executive Programs"],
+          careers: ["Lecturer", "Engineer", "Consultant"]
+        }
+      },
+      rec_mba: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MBA (IIMs, ISB, Global B-Schools)"],
+          careers: ["Manager", "Business Strategist", "HR Lead"]
+        }
+      },
+      rec_startup: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["Startup Incubators", "Entrepreneurship Programs"],
+          careers: ["Entrepreneur", "Founder", "Product Innovator"]
+        }
+      },
+      rec_clinical: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MD/MS", "Specializations", "Clinical Practice"],
+          careers: ["Doctor", "Dentist", "Surgeon", "Healthcare Specialist"]
+        }
+      },
+      rec_med_research: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["M.Sc. Biotechnology", "PhD", "Global Research Programs"],
+          careers: ["Biotech Researcher", "Pharma Scientist", "Genetic Engineer"]
+        }
+      },
+      rec_health_manage: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MBA Healthcare", "Hospital Administration"],
+          careers: ["Healthcare Manager", "Policy Analyst"]
+        }
+      },
+      rec_finance: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["CA", "CFA", "MBA Finance"],
+          careers: ["Chartered Accountant", "Investment Banker", "Financial Analyst"]
+        }
+      },
+      rec_manage: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MBA", "Management Certifications"],
+          careers: ["Manager", "Business Consultant", "HR Specialist"]
+        }
+      },
+      rec_law: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["LLB", "Corporate Law Programs"],
+          careers: ["Corporate Lawyer", "Legal Consultant"]
+        }
+      },
+      rec_civil: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MA Political Science", "UPSC Prep"],
+          careers: ["Civil Services", "Political Analyst", "Historian"]
+        }
+      },
+      rec_psychology: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["M.A. Psychology", "Counseling Certifications"],
+          careers: ["Psychologist", "Therapist", "Counselor"]
+        }
+      },
+      rec_media: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MA Journalism", "Creative Writing"],
+          careers: ["Journalist", "Writer", "Editor", "Media Analyst"]
+        }
+      },
+      rec_fine: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["MFA", "Design Schools"],
+          careers: ["Designer", "Artist", "Performer"]
+        }
+      },
+      rec_skills: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["Skill Courses (Digital Marketing, UX, Languages)"],
+          careers: ["Freelancer", "Digital Marketer", "Translator"]
+        }
+      },
+      rec_generic: {
+        text: "✅ Recommendation",
+        result: {
+          courses: ["Generic Diplomas", "Professional Certifications"],
+          careers: ["Administrative Roles", "Support Roles"]
+        }
+      }
+    };
+
+    let current = "q1";
+
+    function loadQuestion() {
+      const q = quiz[current];
+      const questionEl = document.getElementById("question");
+      const optionsEl = document.getElementById("options");
+      const resultEl = document.getElementById("result");
+
+      if (q.result) {
+        questionEl.textContent = q.text;
+        optionsEl.innerHTML = "";
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `
+          <h3>Best Career Options for You:</h3>
+          <ul>${q.result.courses.map(c => `<li>${c}</li>`).join("")}</ul>
+          <h3>Possible Career Paths:</h3>
+          <ul>${q.result.careers.map(c => `<li>${c}</li>`).join("")}</ul>
+          <button class="find-colleges" onclick="findColleges()">🔎 Find Higher Study Programs</button>
+        `;
+      } else {
+        questionEl.textContent = q.text;
+        optionsEl.innerHTML = "";
+        resultEl.innerHTML = "";
+
+        q.options.forEach(opt => {
+          const btn = document.createElement("button");
+          btn.textContent = opt.text;
+          btn.className = "option";
+          btn.onclick = () => {
+            current = opt.next;
+            loadQuestion();
+          };
+          optionsEl.appendChild(btn);
+        });
+      }
+    }
+
+    function findColleges() {
+      alert("This would integrate with Google Maps or higher education program database.");
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>
